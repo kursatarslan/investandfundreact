@@ -3,7 +3,7 @@ import { FetchData } from "./components/FetchData";
 import { FetchStudioData } from "./components/FetchStudioData";
 import { Home } from "./components/Home";
 import { Login } from "./components/Login";
-import { StudioItemDetail } from "./components/StudioItemDetail";
+import StudioItemDetail from "./components/StudioItemDetail";
 
 const AppRoutes = [
   {

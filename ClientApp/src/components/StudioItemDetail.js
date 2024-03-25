@@ -1,40 +1,28 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
 
-export class StudioItemDetail extends Component {
-    static displayName = StudioItemDetail.name;
+const StudioItemDetail = () => {
+    const { id } = useParams();
+    const [studioItem, setStudioItem] = useState({});
+    const [loading, setLoading] = useState(true);
 
-    constructor(props) {
-        super(props);
-        this.state = { studioItem: {}, loading: true };
-    }
+    useEffect(() => {
+        const populateStudioItem = async (itemId) => {
+            try {
+                const response = await fetch(`https://localhost:5001/peoplespartnership/api/studioitem/${itemId}`);
+                const data = await response.json();
+                setStudioItem(data.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching studio item:', error);
+                setLoading(false);
+            }
+        };
 
-    async componentDidMount() {
-        const { match } = this.props;
-        const { params } = match || {};
-        const { id } = params || {};
-        await this.populateStudioItem(id);
-    }
+        populateStudioItem(id);
+    }, [id]);
 
-    render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : this.renderStudioItemDetail(this.state.studioItem);
-
-        return (
-            <div>
-                <h1>Studio Item Detail</h1>
-                {contents}
-            </div>
-        );
-    }
-
-    async populateStudioItem(id) {
-        const response = await fetch(`https://localhost:5001/peoplespartnership/api/studioitem/GetById/${id}`);
-        const data = await response.json();
-        this.setState({ studioItem: data.data, loading: false });
-    }
-
-    renderStudioItemDetail(studioItem) {
+    const renderStudioItemDetail = (studioItem) => {
         return (
             <div>
                 <h2>{studioItem.name}</h2>
@@ -43,5 +31,14 @@ export class StudioItemDetail extends Component {
                 <p>Sold: {studioItem.sold}</p>
             </div>
         );
-    }
-}
+    };
+
+    return (
+        <div>
+            <h1>Studio Item Detail</h1>
+            {loading ? <p><em>Loading...</em></p> : renderStudioItemDetail(studioItem)}
+        </div>
+    );
+};
+
+export default StudioItemDetail;
