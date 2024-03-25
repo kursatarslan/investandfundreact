@@ -1,0 +1,4 @@
+
+_csharpsquid:S20943"BRemove this empty class, write its code or make it an "interface".(âš¶Æ
+Bcsharpsquid:S39033"%Move 'MyUser' into a named namespace.(âš¶Æ
+Mcsharpsquid:S39035"+Move 'AppDbContext' into a named namespace.(ƒå‘®ûÿÿÿÿ
